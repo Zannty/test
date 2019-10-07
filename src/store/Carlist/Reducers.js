@@ -1,4 +1,4 @@
-import { CHECKED, ADD_CAR, REMOVE_CAR, MOVE_OFF, MOVE_ON, ENGINE_OFF, ENGINE_ON, CLEAR } from './Actions';
+import { CHECKED, ADD_CAR, REMOVE_CAR, MOVE_OFF, MOVE_ON, ENGINE_OFF, ENGINE_ON } from './Actions';
 
 const defaultState = {
   check: true,
@@ -9,11 +9,6 @@ export const carlistReducer = (state = defaultState, action) => {
   console.log(state);
   // eslint-disable-next-line default-case
   switch (action.type) {
-    case CLEAR:
-      return {
-        ...state,
-        carlist: state.carlist.filter(car => car.id !== undefined),
-      };
     case CHECKED:
       return {
         ...state,
@@ -23,7 +18,10 @@ export const carlistReducer = (state = defaultState, action) => {
     case ADD_CAR:
       return {
         ...state,
-        carlist: [...state.carlist, action.payload],
+        carlist: [
+          ...state.carlist,
+          { name: action.payload, id: action.id, isEngine: true, isMove: true, isWheels: true },
+        ],
       };
     case REMOVE_CAR:
       console.log(action.payload);
@@ -34,36 +32,48 @@ export const carlistReducer = (state = defaultState, action) => {
     case ENGINE_ON:
       return {
         ...state,
-        carlist: [...state.carlist, (state.carlist.find(car => car.id === action.id).isEngine = action.payload)],
+        carlist: state.carlist.map(car => (car.id === action.id ? { ...car, isEngine: action.payload } : car)),
       };
     case ENGINE_OFF:
       return {
         ...state,
-        carlist: [
-          ...state.carlist,
-          (state.carlist.find(car => car.id === action.id).isEngine = action.payload.isEngine),
-          (state.carlist.find(car => car.id === action.id).isMove = action.payload.isMove),
-          (state.carlist.find(car => car.id === action.id).isWheels = action.payload.isWheels),
-        ],
+        carlist: state.carlist.map(car =>
+          car.id === action.id
+            ? {
+                ...car,
+                isEngine: action.payload.isEngine,
+                isMove: action.payload.isMove,
+                isWheels: action.payload.isWheels,
+              }
+            : car,
+        ),
       };
     case MOVE_ON:
       return {
         ...state,
-        carlist: [
-          ...state.carlist,
-          (state.carlist.find(car => car.id === action.id).isMove = action.payload.isMove),
-          (state.carlist.find(car => car.id === action.id).isWheels = action.payload.isWheels),
-        ],
+        carlist: state.carlist.map(car =>
+          car.id === action.id
+            ? {
+                ...car,
+                isMove: action.payload.isMove,
+                isWheels: action.payload.isWheels,
+              }
+            : car,
+        ),
       };
 
     case MOVE_OFF:
       return {
         ...state,
-        carlist: [
-          ...state.carlist,
-          (state.carlist.find(car => car.id === action.id).isMove = action.payload.isMove),
-          (state.carlist.find(car => car.id === action.id).isWheels = action.payload.isWheels),
-        ],
+        carlist: state.carlist.map(car =>
+          car.id === action.id
+            ? {
+                ...car,
+                isMove: action.payload.isMove,
+                isWheels: action.payload.isWheels,
+              }
+            : car,
+        ),
       };
   }
   return state;

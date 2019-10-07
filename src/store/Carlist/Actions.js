@@ -5,24 +5,20 @@ export const ENGINE_ON = 'ENGINE_ON';
 export const ENGINE_OFF = 'ENGINE_OFF';
 export const MOVE_ON = 'MOVE_ON';
 export const MOVE_OFF = 'MOVE_OFF';
-export const CLEAR = 'CLEAR';
 
 export const removeCar = id => ({
   type: REMOVE_CAR,
-  payload: id,
-});
-export const clear = id => ({
-  type: CLEAR,
   payload: id,
 });
 
 export const checked = () => ({
   type: CHECKED,
 });
-
+let id = 1;
 export const addcar = car => ({
   type: ADD_CAR,
   payload: car,
+  id: id++,
 });
 
 export const engineON = id => ({

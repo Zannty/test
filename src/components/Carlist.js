@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addcar, checked, removeCar, engineON, engineOFF, moveOFF, moveON, clear } from './../store/Carlist/Actions';
-
+import { addcar, checked, removeCar, engineON, engineOFF, moveOFF, moveON } from './../store/Carlist/Actions';
+const cars = ['mercedes', 'jeep', 'fiat'];
 class Carlist extends React.Component {
   render() {
     const option = [1, 2, 3];
@@ -20,7 +20,6 @@ class Carlist extends React.Component {
               <button
                 onClick={() => {
                   this.props.engineON(car.id);
-                  this.props.clear(car.id);
                 }}
               >
                 Запустить двигатель
@@ -28,7 +27,6 @@ class Carlist extends React.Component {
               <button
                 onClick={() => {
                   this.props.engineOFF(car.id);
-                  this.props.clear(car.id);
                 }}
               >
                 Заглушить двигатель
@@ -36,7 +34,6 @@ class Carlist extends React.Component {
               <button
                 onClick={() => {
                   this.props.moveON(car.id);
-                  this.props.clear(car.id);
                 }}
                 disabled={car.isEngine}
               >
@@ -45,7 +42,6 @@ class Carlist extends React.Component {
               <button
                 onClick={() => {
                   this.props.moveOFF(car.id);
-                  this.props.clear(car.id);
                 }}
               >
                 Остановиться
@@ -76,13 +72,10 @@ class Carlist extends React.Component {
   }
 
   add = () => {
-    if (this.x === 1)
-      this.props.addcar({ name: 'mercedes', id: Math.random(), isEngine: true, isMove: true, isWheels: true });
-    else if (this.x === 2)
-      this.props.addcar({ name: 'jeep', id: Math.random(), isEngine: true, isMove: true, isWheels: true });
-    else if (this.x === 3)
-      this.props.addcar({ name: 'fiat', id: Math.random(), isEngine: true, isMove: true, isWheels: true });
-    else this.props.addcar({ name: 'mercedes', id: Math.random(), isEngine: true, isMove: true, isWheels: true });
+    if (this.x === 1) this.props.addcar(cars[0]);
+    else if (this.x === 2) this.props.addcar(cars[1]);
+    else if (this.x === 3) this.props.addcar(cars[2]);
+    else this.props.addcar(cars[0]);
   };
 
   change = e => {
@@ -106,7 +99,6 @@ const mapDispatchToProps = dispatch => ({
   engineOFF: id => dispatch(engineOFF(id)),
   moveON: id => dispatch(moveON(id)),
   moveOFF: id => dispatch(moveOFF(id)),
-  clear: id => dispatch(clear(id)),
 });
 
 export default connect(
